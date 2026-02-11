@@ -9,6 +9,18 @@
 >So here, we are going to see what Minikube is, how to install and set it up, and how to work with `HPA` using Minikube.
 
 
+---
+
+- [Info & Some Details about Minikube](#example-0)
+- [Minikube Setup](#example-1)
+- [HPA (Horizontal Pod Autoscalling) Concept(Ex.)](#example-2)
+- [Script's](#example-3)
+
+
+---
+
+
+<a id="example-0"></a>
 
 
 #  Minikube
@@ -75,6 +87,8 @@ It supports most Kubernetes features such as Pods, Deployments, Services, Config
 ---
 
 
+<a id="example-1"></a>
+
 
 #  Minikube Setup on AWS EC2 (Ubuntu)
 
@@ -100,7 +114,7 @@ Launch the instance and connect using Linux terminal (SSH).
 
 
 <p align="center">
-  <img src="" width="500" alt="Initialize Repository Screenshot">
+  <img src="https://github.com/nikiimisal/K8S__Minikube__-installation-setup-and-Some-examples/blob/main/img/Screenshot%202026-02-11%20224855.png?raw=true" width="500" alt="Initialize Repository Screenshot">
 </p>
 
 
@@ -120,9 +134,11 @@ sudo apt update && sudo apt upgrade -y
 
 
 
-
 <p align="center">
-  <img src="" width="500" alt="Initialize Repository Screenshot">
+  <img src="https://github.com/nikiimisal/K8S__Minikube__-installation-setup-and-Some-examples/blob/main/img/Screenshot%202026-02-11%20225019.png?raw=true" width="500" alt="Initialize Repository Screenshot">
+</p>
+<p align="center">
+  <img src="https://github.com/nikiimisal/K8S__Minikube__-installation-setup-and-Some-examples/blob/main/img/Screenshot%202026-02-11%20225031.png?raw=true" width="500" alt="Initialize Repository Screenshot">
 </p>
 
 
@@ -145,7 +161,7 @@ sudo apt install docker.io -y
 
 
 <p align="center">
-  <img src="" width="500" alt="Initialize Repository Screenshot">
+  <img src="https://github.com/nikiimisal/K8S__Minikube__-installation-setup-and-Some-examples/blob/main/img/Screenshot%202026-02-11%20225102.png?raw=true" width="500" alt="Initialize Repository Screenshot">
 </p>
 
 
@@ -180,6 +196,12 @@ By default, Docker commands require root (sudo) access.
 
 
 
+<p align="center">
+  <img src="https://github.com/nikiimisal/K8S__Minikube__-installation-setup-and-Some-examples/blob/main/img/Screenshot%202026-02-11%20225146.png?raw=true" width="500" alt="Initialize Repository Screenshot">
+</p>
+
+
+
 ---
 
 ##  Step 6: Add Ubuntu User to Docker Group
@@ -208,7 +230,7 @@ docker ps
 
 
 <p align="center">
-  <img src="" width="500" alt="Initialize Repository Screenshot">
+  <img src="https://github.com/nikiimisal/K8S__Minikube__-installation-setup-and-Some-examples/blob/main/img/Screenshot%202026-02-11%20225236.png?raw=true" width="500" alt="Initialize Repository Screenshot">
 </p>
 
 
@@ -236,7 +258,7 @@ kubectl version --client
 
 
 <p align="center">
-  <img src="" width="500" alt="Initialize Repository Screenshot">
+  <img src="https://github.com/nikiimisal/K8S__Minikube__-installation-setup-and-Some-examples/blob/main/img/Screenshot%202026-02-11%20225325.png?raw=true" width="500" alt="Initialize Repository Screenshot">
 </p>
 
 
@@ -265,7 +287,7 @@ minikube version
 
 
 <p align="center">
-  <img src="" width="500" alt="Initialize Repository Screenshot">
+  <img src="https://github.com/nikiimisal/K8S__Minikube__-installation-setup-and-Some-examples/blob/main/img/Screenshot%202026-02-11%20225435.png?raw=true" width="500" alt="Initialize Repository Screenshot">
 </p>
 
 
@@ -287,7 +309,7 @@ minikube start --driver=docker --memory=1800 --cpus=2
 
 
 <p align="center">
-  <img src="" width="500" alt="Initialize Repository Screenshot">
+  <img src="https://github.com/nikiimisal/K8S__Minikube__-installation-setup-and-Some-examples/blob/main/img/Screenshot%202026-02-11%20225459.png?raw=true" width="500" alt="Initialize Repository Screenshot">
 </p>
 
 
@@ -346,7 +368,7 @@ If CPU and memory values are shown, the Metrics Server is working correctly ✅
 
 
 <p align="center">
-  <img src="" width="500" alt="Initialize Repository Screenshot">
+  <img src="https://github.com/nikiimisal/K8S__Minikube__-installation-setup-and-Some-examples/blob/main/img/Screenshot%202026-02-11%20225548.png?raw=true" width="500" alt="Initialize Repository Screenshot">
 </p>
 
 
@@ -360,6 +382,9 @@ If CPU and memory values are shown, the Metrics Server is working correctly ✅
 ---
 
 
+<a id="example-2"></a>
+
+
 #  HPA (Horizontal Pod Autoscalling) Concept  
 
 
@@ -371,6 +396,9 @@ Now we will create three files:<br>
 `deployment.yml`, `service.yml`, and `hpa.yml`.<br>
 These three files work together to demonstrate Horizontal Pod Autoscaling.<br>
 The Deployment manages pod replicas, the Service exposes the application, and the HPA automatically increases or decreases pods based on CPU usage.
+
+
+- [To see Script's Click](#example-3)
 
 
 ---
@@ -402,11 +430,11 @@ kubectl apply -f hpa.yml
 
 
 <p align="center">
-  <img src="" width="500" alt="Initialize Repository Screenshot">
+  <img src="https://github.com/nikiimisal/K8S__Minikube__-installation-setup-and-Some-examples/blob/main/img/Screenshot%202026-02-11%20225710.png?raw=true" width="500" alt="Initialize Repository Screenshot">
 </p>
 
 <p align="center">
-  <img src="" width="500" alt="Initialize Repository Screenshot">
+  <img src="https://github.com/nikiimisal/K8S__Minikube__-installation-setup-and-Some-examples/blob/main/img/Screenshot%202026-02-11%20225809.png?raw=true" width="500" alt="Initialize Repository Screenshot">
 </p>
 
 
@@ -488,6 +516,10 @@ The load stops, and HPA will scale down the pods automatically.
 
 ---
 ---
+
+
+<a id="example-3"></a>
+
 
 #  Script's
 
