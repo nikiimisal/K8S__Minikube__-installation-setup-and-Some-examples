@@ -97,6 +97,16 @@ This helps explains how to launch an EC2 instance and set up Docker, kubectl, an
 
 Launch the instance and connect using Linux terminal (SSH).
 
+
+
+<p align="center">
+  <img src="" width="500" alt="Initialize Repository Screenshot">
+</p>
+
+
+
+
+
 ---
 
 ##  Step 2: Update the System
@@ -105,6 +115,25 @@ Launch the instance and connect using Linux terminal (SSH).
 sudo apt update && sudo apt upgrade -y
 ```
 
+
+
+
+
+
+
+<p align="center">
+  <img src="" width="500" alt="Initialize Repository Screenshot">
+</p>
+
+
+
+
+
+
+
+
+
+
 ---
 
 ##  Step 3: Install Docker
@@ -112,6 +141,15 @@ sudo apt update && sudo apt upgrade -y
 ```Bash
 sudo apt install docker.io -y
 ```
+
+
+
+<p align="center">
+  <img src="" width="500" alt="Initialize Repository Screenshot">
+</p>
+
+
+
 
 ###  Why Docker is Required?
 
@@ -165,6 +203,18 @@ Test again:
 docker ps
 ```
 
+
+
+
+
+<p align="center">
+  <img src="" width="500" alt="Initialize Repository Screenshot">
+</p>
+
+
+
+
+
 ---
 
 ##  Step 7: Install kubectl
@@ -180,6 +230,18 @@ Verify installation:
 ```Bash
 kubectl version --client
 ```
+
+
+
+
+
+<p align="center">
+  <img src="" width="500" alt="Initialize Repository Screenshot">
+</p>
+
+
+
+
 
 ---
 
@@ -198,6 +260,19 @@ minikube version
 ```
 
 
+
+
+
+
+<p align="center">
+  <img src="" width="500" alt="Initialize Repository Screenshot">
+</p>
+
+
+
+
+
+
 ---
 
 ##  Step 9: Start Minikube with Resource Allocation
@@ -206,6 +281,18 @@ We allocate CPU and memory to avoid excessive resource usage.
 ```Bash
 minikube start --driver=docker --memory=1800 --cpus=2
 ```
+
+
+
+
+
+<p align="center">
+  <img src="" width="500" alt="Initialize Repository Screenshot">
+</p>
+
+
+
+
 
 ---
 
@@ -254,6 +341,20 @@ kubectl top pods
 ```
 If CPU and memory values are shown, the Metrics Server is working correctly ✅
 
+
+
+
+
+<p align="center">
+  <img src="" width="500" alt="Initialize Repository Screenshot">
+</p>
+
+
+
+
+
+
+
 ---
 ---
 ---
@@ -294,6 +395,32 @@ kubectl apply -f deployment.yml
 kubectl apply -f service.yml
 kubectl apply -f hpa.yml
 ```
+
+
+
+
+
+
+<p align="center">
+  <img src="" width="500" alt="Initialize Repository Screenshot">
+</p>
+
+<p align="center">
+  <img src="" width="500" alt="Initialize Repository Screenshot">
+</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ---
 
@@ -357,6 +484,102 @@ kubectl delete pod load-generator
 ```
 
 The load stops, and HPA will scale down the pods automatically.
+
+
+---
+---
+
+#  Script's
+
+
+`deployment.yml`
+
+```yaml
+apiVersion: apps/v1                     # API version for Deployment resource
+kind: Deployment                      # Resource type is Deployment (manages ReplicaSets & Pods)
+
+metadata:                             # Metadata of the Deployment
+  name: hpa-demo                      # Name of the Deployment
+
+spec:                                 # Specification of the Deployment
+  replicas: 1                         # Number of Pod replicas to run initially
+
+  selector:                           # Selector to identify Pods managed by this Deployment
+    matchLabels:                      # Matching labels
+      app: hpa-demo                   # Pods with label app=hpa-demo are managed
+
+  template:                           # Pod template used by the Deployment
+    metadata:                         # Metadata for Pods
+      labels:                         # Labels applied to Pods
+        app: hpa-demo                 # Label used by selector
+
+    spec:                             # Pod specification
+      containers:                    # List of containers in the Pod
+      - name: hpa-container           # Name of the container
+        image: nginx                  # Nginx container image
+
+        ports:                        # Ports exposed by the container
+        - containerPort: 80           # Container listens on port 80
+
+        resources:                    # Resource management for the container
+          requests:                   # Minimum resources required
+            cpu: "100m"               # Requests 100 millicores of CPU
+
+          limits:                     # Maximum resources allowed
+            cpu: "200m"               # CPU usage cannot exceed 200 millicores
+```
+
+
+-  `service.yml`
+
+```yaml
+apiVersion: v1                          # API version for core Kubernetes resources
+kind: Service                           # Resource type is Service (used to expose Pods)
+
+metadata:                               # Metadata information of the Service
+  name: hpa-service                     # Name of the Service
+
+spec:                                   # Specification of the Service
+  type: NodePort                        # Service type is NodePort (exposes service outside cluster)
+
+  selector:                             # Label selector to choose target Pods
+    app: hpa-demo                       # Service routes traffic to Pods with label app=hpa-demo
+
+  ports:                                # Port configuration for the Service
+  - port: 80                            # Service port inside the cluster
+    targetPort: 80                     # Target port on the container
+```
+
+- `hpa.yml`
+
+```yaml
+apiVersion: autoscaling/v2              # API version for HorizontalPodAutoscaler (newer stable version)
+kind: HorizontalPodAutoscaler           # Resource type is HPA (auto scales Pods)
+
+metadata:                               # Metadata of the HPA
+  name: hpa-demo-hpa                    # Name of the HorizontalPodAutoscaler
+
+spec:                                   # Specification of the HPA
+  scaleTargetRef:                       # Reference to the resource to be scaled
+    apiVersion: apps/v1                 # API version of the target resource
+    kind: Deployment                    # Target resource type is Deployment
+    name: hpa-demo                      # Name of the Deployment to scale
+
+  minReplicas: 1                        # Minimum number of Pod replicas
+  maxReplicas: 5                        # Maximum number of Pod replicas
+
+  metrics:                              # Metrics used for autoscaling decision
+  - type: Resource                      # Metric type is Resource (CPU / Memory)
+    resource:                           # Resource metric configuration
+      name: cpu                         # CPU metric is used
+      target:                           # Target threshold for scaling
+        type: Utilization               # Scaling based on CPU utilization percentage
+        averageUtilization: 50          # Scale if average CPU usage exceeds 50%
+```
+
+-  `
+
+
 
 
 ---
